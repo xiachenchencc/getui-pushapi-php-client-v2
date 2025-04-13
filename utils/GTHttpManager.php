@@ -13,11 +13,11 @@ class GTHttpManager
 
     private static function request($url, $data, $gzip, $method,$headers)
     {
-        if(!isset(GTHttpManager::$curls[$url])){
+        // if(!isset(GTHttpManager::$curls[$url])){
             $curl = curl_init($url);
-            GTHttpManager::$curls[$url] = $curl;
-        }
-        $curl = GTHttpManager::$curls[$url];
+            // GTHttpManager::$curls[$url] = $curl;
+        // }
+        // $curl = GTHttpManager::$curls[$url];
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_BINARYTRANSFER, 1);
         curl_setopt($curl, CURLOPT_USERAGENT, 'GeTui RAS2 PHP/1.0');
@@ -95,8 +95,9 @@ class GTHttpManager
     private static function exeBySetTimes($count, $curl)
     {
         $result = curl_exec($curl);
-		$info = curl_getinfo($curl);
-		$code = $info["http_code"];
+	$info = curl_getinfo($curl);
+	curl_close($curl);
+	$code = $info["http_code"];
         if (curl_errno($curl) != 0 && $code != 200) {
 			$count--;
             if ($count > 0) {
